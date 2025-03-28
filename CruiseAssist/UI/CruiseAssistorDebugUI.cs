@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace tanu.CruiseAssist
 {
-    public class CruiseAssistDebugUI
+    public class CruiseAssistorDebugUI
     {
         public static bool Show = false;
         public static Rect Rect = new Rect(0f, 0f, 400f, 400f);
@@ -20,9 +20,9 @@ namespace tanu.CruiseAssist
             var windowStyle = new GUIStyle(GUI.skin.window);
             windowStyle.fontSize = 11;
 
-            Rect = GUILayout.Window(99030294, Rect, WindowFunction, "CruiseAssist - Debug", windowStyle);
+            Rect = GUILayout.Window(99030294, Rect, WindowFunction, "CruiseAssistor - Debug", windowStyle);
 
-            var scale = CruiseAssistMainUI.Scale / 100.0f;
+            var scale = CruiseAssistorMainUI.Scale / 100.0f;
 
             if (Screen.width < Rect.xMax)
             {
@@ -89,12 +89,12 @@ namespace tanu.CruiseAssist
 
                 scrollPos = GUILayout.BeginScrollView(scrollPos);
 
-                GUILayout.Label($"CruiseAssist.ReticuleTargetStar.id={CruiseAssist.ReticuleTargetStar?.id}",
+                GUILayout.Label($"CruiseAssistor.ReticuleTargetStar.id={CruiseAssistor.ReticuleTargetStar?.id}",
                     labelStyle);
-                GUILayout.Label($"CruiseAssist.ReticuleTargetPlanet.id={CruiseAssist.ReticuleTargetPlanet?.id}",
+                GUILayout.Label($"CruiseAssistor.ReticuleTargetPlanet.id={CruiseAssistor.ReticuleTargetPlanet?.id}",
                     labelStyle);
-                GUILayout.Label($"CruiseAssist.SelectTargetStar.id={CruiseAssist.SelectTargetStar?.id}", labelStyle);
-                GUILayout.Label($"CruiseAssist.SelectTargetPlanet.id={CruiseAssist.SelectTargetPlanet?.id}",
+                GUILayout.Label($"CruiseAssistor.SelectTargetStar.id={CruiseAssistor.SelectTargetStar?.id}", labelStyle);
+                GUILayout.Label($"CruiseAssistor.SelectTargetPlanet.id={CruiseAssistor.SelectTargetPlanet?.id}",
                     labelStyle);
                 GUILayout.Label(
                     $"GameMain.mainPlayer.navigation.indicatorAstroId={GameMain.mainPlayer.navigation.indicatorAstroId}",
@@ -116,9 +116,9 @@ namespace tanu.CruiseAssist
                 GUILayout.Label($"GameMain.mainPlayer.controller.input1.z={GameMain.mainPlayer.controller.input1.z}",
                     labelStyle);
                 GUILayout.Label($"VFInput._sailSpeedUp={VFInput._sailSpeedUp}", labelStyle);
-                GUILayout.Label($"CruiseAssist.Enable={CruiseAssist.Enable}", labelStyle);
-                GUILayout.Label($"CruiseAssist.History={CruiseAssist.History.Count()}", labelStyle);
-                GUILayout.Label($"CruiseAssist.History={ListUtils.ToString(CruiseAssist.History)}", labelStyle);
+                GUILayout.Label($"CruiseAssistor.Enabled={CruiseAssistor.Enabled}", labelStyle);
+                GUILayout.Label($"CruiseAssistor.History={CruiseAssistor.History.Count()}", labelStyle);
+                GUILayout.Label($"CruiseAssistor.History={ListUtils.ToString(CruiseAssistor.History)}", labelStyle);
                 GUILayout.Label($"GUI.skin.window.margin.top={GUI.skin.window.margin.top}", labelStyle);
                 GUILayout.Label($"GUI.skin.window.border.top={GUI.skin.window.border.top}", labelStyle);
                 GUILayout.Label($"GUI.skin.window.padding.top={GUI.skin.window.padding.top}", labelStyle);

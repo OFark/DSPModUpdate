@@ -10,13 +10,13 @@ using UnityEngine;
 namespace tanu.CruiseAssist
 {
     [BepInPlugin(ModGuid, ModName, ModVersion)]
-    public class CruiseAssist : BaseUnityPlugin
+    public class CruiseAssistor : BaseUnityPlugin
     {
-        public const string ModGuid = "abukaff.CruiseAssist";
+        public const string ModGuid = "OFark.CruiseAssistor";
         public const string ModName = "CruiseAssist";
-        public const string ModVersion = "0.0.39";
+        public const string ModVersion = "0.1.40";
 
-        public static bool Enable = true;
+        public static bool Enabled = true;
         public static bool MarkVisitedFlag = true;
         public static bool SelectFocusFlag = false;
         public static bool HideDuplicateHistoryFlag = true;
@@ -45,7 +45,7 @@ namespace tanu.CruiseAssist
         public void Awake()
         {
             LogManager.Logger = base.Logger;
-            new CruiseAssistConfigManager(base.Config);
+            new CruiseAssistorConfigManager(base.Config);
             ConfigManager.CheckConfig(ConfigManager.Step.AWAKE);
             harmony = new Harmony($"{ModGuid}.Patch");
             harmony.PatchAll(typeof(Patch_GameMain));
@@ -74,43 +74,43 @@ namespace tanu.CruiseAssist
             {
                 Check();
 
-                CruiseAssistMainUI.wIdx = uiGame.starmap.active ? 1 : 0;
+                CruiseAssistorMainUI.wIdx = uiGame.starmap.active ? 1 : 0;
 
-                var scale = CruiseAssistMainUI.Scale / 100.0f;
+                var scale = CruiseAssistorMainUI.Scale / 100.0f;
 
                 GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), Vector2.zero);
 
-                CruiseAssistMainUI.OnGUI();
-                if (CruiseAssistStarListUI.Show[CruiseAssistMainUI.wIdx])
+                CruiseAssistorMainUI.OnGUI();
+                if (CruiseAssistorStarListUI.Show[CruiseAssistorMainUI.wIdx])
                 {
-                    CruiseAssistStarListUI.OnGUI();
+                    CruiseAssistorStarListUI.OnGUI();
                 }
-                if (CruiseAssistConfigUI.Show[CruiseAssistMainUI.wIdx])
+                if (CruiseAssistorConfigUI.Show[CruiseAssistorMainUI.wIdx])
                 {
-                    CruiseAssistConfigUI.OnGUI();
+                    CruiseAssistorConfigUI.OnGUI();
                 }
-                if (CruiseAssistDebugUI.Show)
+                if (CruiseAssistorDebugUI.Show)
                 {
-                    CruiseAssistDebugUI.OnGUI();
+                    CruiseAssistorDebugUI.OnGUI();
                 }
 
                 bool resetInputFlag = false;
 
-                resetInputFlag = ResetInput(CruiseAssistMainUI.Rect[CruiseAssistMainUI.wIdx], scale);
+                resetInputFlag = ResetInput(CruiseAssistorMainUI.Rect[CruiseAssistorMainUI.wIdx], scale);
 
-                if (!resetInputFlag && CruiseAssistStarListUI.Show[CruiseAssistMainUI.wIdx])
+                if (!resetInputFlag && CruiseAssistorStarListUI.Show[CruiseAssistorMainUI.wIdx])
                 {
-                    resetInputFlag = ResetInput(CruiseAssistStarListUI.Rect[CruiseAssistMainUI.wIdx], scale);
+                    resetInputFlag = ResetInput(CruiseAssistorStarListUI.Rect[CruiseAssistorMainUI.wIdx], scale);
                 }
 
-                if (!resetInputFlag && CruiseAssistConfigUI.Show[CruiseAssistMainUI.wIdx])
+                if (!resetInputFlag && CruiseAssistorConfigUI.Show[CruiseAssistorMainUI.wIdx])
                 {
-                    resetInputFlag = ResetInput(CruiseAssistConfigUI.Rect[CruiseAssistMainUI.wIdx], scale);
+                    resetInputFlag = ResetInput(CruiseAssistorConfigUI.Rect[CruiseAssistorMainUI.wIdx], scale);
                 }
 
-                if (!resetInputFlag && CruiseAssistDebugUI.Show)
+                if (!resetInputFlag && CruiseAssistorDebugUI.Show)
                 {
-                    resetInputFlag = ResetInput(CruiseAssistDebugUI.Rect, scale);
+                    resetInputFlag = ResetInput(CruiseAssistorDebugUI.Rect, scale);
                 }
             }
         }
@@ -123,36 +123,36 @@ namespace tanu.CruiseAssist
                 var astroId = GameMain.mainPlayer.navigation.indicatorAstroId;
                 var enemyId = GameMain.mainPlayer.navigation.indicatorEnemyId;
 
-                if (CruiseAssist.SelectTargetAstroId != astroId)
+                if (CruiseAssistor.SelectTargetAstroId != astroId)
                 {
-                    CruiseAssist.SelectTargetAstroId = astroId;
+                    CruiseAssistor.SelectTargetAstroId = astroId;
                     if (astroId % 100 != 0)
                     {
-                        CruiseAssist.SelectTargetPlanet = GameMain.galaxy.PlanetById(astroId);
-                        CruiseAssist.SelectTargetStar = CruiseAssist.SelectTargetPlanet.star;
+                        CruiseAssistor.SelectTargetPlanet = GameMain.galaxy.PlanetById(astroId);
+                        CruiseAssistor.SelectTargetStar = CruiseAssistor.SelectTargetPlanet.star;
                     }
                     else
                     {
-                        CruiseAssist.SelectTargetPlanet = null;
-                        CruiseAssist.SelectTargetStar = GameMain.galaxy.StarById(astroId / 100);
+                        CruiseAssistor.SelectTargetPlanet = null;
+                        CruiseAssistor.SelectTargetStar = GameMain.galaxy.StarById(astroId / 100);
                     }
                 }
 
-                if (CruiseAssist.SelectTargetEnemyId != enemyId)
+                if (CruiseAssistor.SelectTargetEnemyId != enemyId)
                 {
-                    CruiseAssist.SelectTargetEnemyId = enemyId;
+                    CruiseAssistor.SelectTargetEnemyId = enemyId;
                 }
 
                 if (GameMain.localPlanet != null)
                 {
-                    if (CruiseAssist.History.Count == 0 || CruiseAssist.History.Last() != GameMain.localPlanet.id)
+                    if (CruiseAssistor.History.Count == 0 || CruiseAssistor.History.Last() != GameMain.localPlanet.id)
                     {
-                        if (CruiseAssist.History.Count >= 128)
+                        if (CruiseAssistor.History.Count >= 128)
                         {
-                            CruiseAssist.History.RemoveAt(0);
+                            CruiseAssistor.History.RemoveAt(0);
                         }
 
-                        CruiseAssist.History.Add(GameMain.localPlanet.id);
+                        CruiseAssistor.History.Add(GameMain.localPlanet.id);
                         ConfigManager.CheckConfig(ConfigManager.Step.STATE);
                     }
                 }

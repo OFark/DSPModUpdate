@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace tanu.CruiseAssist
 {
-	public class CruiseAssistStarListUI
+	public class CruiseAssistorStarListUI
 	{
 		private static int wIdx = 0;
 
@@ -30,14 +30,14 @@ namespace tanu.CruiseAssist
 
 		public static void OnGUI()
 		{
-			wIdx = CruiseAssistMainUI.wIdx;
+			wIdx = CruiseAssistorMainUI.wIdx;
 
 			var windowStyle = new GUIStyle(GUI.skin.window);
 			windowStyle.fontSize = 11;
 
-			Rect[wIdx] = GUILayout.Window(99030292, Rect[wIdx], WindowFunction, "CruiseAssist - StarList", windowStyle);
+			Rect[wIdx] = GUILayout.Window(99030292, Rect[wIdx], WindowFunction, "Cruise Assistor - StarList", windowStyle);
 
-			var scale = CruiseAssistMainUI.Scale / 100.0f;
+			var scale = CruiseAssistorMainUI.Scale / 100.0f;
 
 			if (Screen.width / scale < Rect[wIdx].xMax)
 			{
@@ -61,7 +61,7 @@ namespace tanu.CruiseAssist
 			{
 				if (Rect[wIdx].x != lastCheckWindowLeft || Rect[wIdx].y != lastCheckWindowTop)
 				{
-					CruiseAssistMainUI.NextCheckGameTick = GameMain.gameTick + 300;
+					CruiseAssistorMainUI.NextCheckGameTick = GameMain.gameTick + 300;
 				}
 			}
 
@@ -90,7 +90,7 @@ namespace tanu.CruiseAssist
 			if (selected != ListSelected)
 			{
 				ListSelected = selected;
-				CruiseAssistMainUI.NextCheckGameTick = GameMain.gameTick + 300;
+				CruiseAssistorMainUI.NextCheckGameTick = GameMain.gameTick + 300;
 			}
 
 			GUILayout.EndHorizontal();
@@ -134,13 +134,13 @@ namespace tanu.CruiseAssist
 				{
 					var star = tuple.v1;
 					var range = tuple.v2;
-					var starName = CruiseAssist.GetStarName(star);
+					var starName = CruiseAssistor.GetStarName(star);
 					bool viewPlanetFlag = false;
 					if (GameMain.localStar != null && star.id == GameMain.localStar.id)
 					{
 						viewPlanetFlag = true;
 					}
-					else if (CruiseAssist.SelectTargetStar != null && star.id == CruiseAssist.SelectTargetStar.id && GameMain.history.universeObserveLevel >= (range >= 14400000.0 ? 4 : 3))
+					else if (CruiseAssistor.SelectTargetStar != null && star.id == CruiseAssistor.SelectTargetStar.id && GameMain.history.universeObserveLevel >= (range >= 14400000.0 ? 4 : 3))
 					{
 						viewPlanetFlag = true;
 					}
@@ -163,13 +163,13 @@ namespace tanu.CruiseAssist
 
 								if (planet == null)
 								{
-									if (CruiseAssist.SelectTargetPlanet == null && CruiseAssist.SelectTargetStar != null && star.id == CruiseAssist.SelectTargetStar.id)
+									if (CruiseAssistor.SelectTargetPlanet == null && CruiseAssistor.SelectTargetStar != null && star.id == CruiseAssistor.SelectTargetStar.id)
 									{
 										nameLabelStyle.normal.textColor = Color.cyan;
 										nRangeLabelStyle.normal.textColor = Color.cyan;
 									}
 									var text = starName;
-									if (CruiseAssist.MarkVisitedFlag)
+									if (CruiseAssistor.MarkVisitedFlag)
 									{
 										text = (star.planets.Where(p => p.factory != null).Count() > 0 ? VisitedMark : NonVisitMark) + text;
 									}
@@ -178,13 +178,13 @@ namespace tanu.CruiseAssist
 								}
 								else
 								{
-									if (CruiseAssist.SelectTargetPlanet != null && planet.id == CruiseAssist.SelectTargetPlanet.id)
+									if (CruiseAssistor.SelectTargetPlanet != null && planet.id == CruiseAssistor.SelectTargetPlanet.id)
 									{
 										nameLabelStyle.normal.textColor = Color.cyan;
 										nRangeLabelStyle.normal.textColor = Color.cyan;
 									}
-									var text = starName + " - " + CruiseAssist.GetPlanetName(planet);
-									if (CruiseAssist.MarkVisitedFlag)
+									var text = starName + " - " + CruiseAssistor.GetPlanetName(planet);
+									if (CruiseAssistor.MarkVisitedFlag)
 									{
 										text = (planet.factory != null ? VisitedMark : NonVisitMark) + text;
 									}
@@ -194,12 +194,12 @@ namespace tanu.CruiseAssist
 
 								GUILayout.FlexibleSpace();
 
-								GUILayout.Label(CruiseAssistMainUI.RangeToString(planet == null ? range : range2), textHeight < 30 ? nRangeLabelStyle : hRangeLabelStyle);
+								GUILayout.Label(CruiseAssistorMainUI.RangeToString(planet == null ? range : range2), textHeight < 30 ? nRangeLabelStyle : hRangeLabelStyle);
 
 								var actionName =
 									actionSelected[ListSelected] == 0 ? "SET" :
 									planet == null ? "-" :
-									CruiseAssist.Bookmark.Contains(planet.id) ? "DEL" : "ADD";
+									CruiseAssistor.Bookmark.Contains(planet.id) ? "DEL" : "ADD";
 
 								if (GUILayout.Button(actionName, textHeight < 30 ? nActionButtonStyle : hActionButtonStyle))
 								{
@@ -211,16 +211,16 @@ namespace tanu.CruiseAssist
 									}
 									else if (planet != null)
 									{
-										if (CruiseAssist.Bookmark.Contains(planet.id))
+										if (CruiseAssistor.Bookmark.Contains(planet.id))
 										{
-											CruiseAssist.Bookmark.Remove(planet.id);
+											CruiseAssistor.Bookmark.Remove(planet.id);
 										}
 										else
 										{
-											if (CruiseAssist.Bookmark.Count <= 128)
+											if (CruiseAssistor.Bookmark.Count <= 128)
 											{
-												CruiseAssist.Bookmark.Add(planet.id);
-												CruiseAssistMainUI.NextCheckGameTick = GameMain.gameTick + 300;
+												CruiseAssistor.Bookmark.Add(planet.id);
+												CruiseAssistorMainUI.NextCheckGameTick = GameMain.gameTick + 300;
 											}
 										}
 									}
@@ -237,14 +237,14 @@ namespace tanu.CruiseAssist
 						nameLabelStyle.normal.textColor = Color.white;
 						nRangeLabelStyle.normal.textColor = Color.white;
 
-						if (CruiseAssist.SelectTargetStar != null && star.id == CruiseAssist.SelectTargetStar.id)
+						if (CruiseAssistor.SelectTargetStar != null && star.id == CruiseAssistor.SelectTargetStar.id)
 						{
 							nameLabelStyle.normal.textColor = Color.cyan;
 							nRangeLabelStyle.normal.textColor = Color.cyan;
 						}
 
 						var text = starName;
-						if (CruiseAssist.MarkVisitedFlag)
+						if (CruiseAssistor.MarkVisitedFlag)
 						{
 							text = (star.planets.Where(p => p.factory != null).Count() > 0 ? VisitedMark : NonVisitMark) + text;
 						}
@@ -253,7 +253,7 @@ namespace tanu.CruiseAssist
 
 						GUILayout.FlexibleSpace();
 
-						GUILayout.Label(CruiseAssistMainUI.RangeToString(range), textHeight < 30 ? nRangeLabelStyle : hRangeLabelStyle);
+						GUILayout.Label(CruiseAssistorMainUI.RangeToString(range), textHeight < 30 ? nRangeLabelStyle : hRangeLabelStyle);
 
 						var actionName =
 							actionSelected[ListSelected] == 0 ? "SET" : "-";
@@ -276,9 +276,9 @@ namespace tanu.CruiseAssist
 			{
 				bool highlighted = false;
 
-				var list = ListSelected == 1 ? CruiseAssist.History.Reverse<int>() : CruiseAssist.Bookmark.ToList();
+				var list = ListSelected == 1 ? CruiseAssistor.History.Reverse<int>() : CruiseAssistor.Bookmark.ToList();
 
-				if (ListSelected == 1 && actionSelected[ListSelected] != 2 && CruiseAssist.HideDuplicateHistoryFlag)
+				if (ListSelected == 1 && actionSelected[ListSelected] != 2 && CruiseAssistor.HideDuplicateHistoryFlag)
 				{
 					list = list.Distinct();
 				}
@@ -295,13 +295,13 @@ namespace tanu.CruiseAssist
 						return;
 					}
 					var star = planet.star;
-					var starName = CruiseAssist.GetStarName(star);
+					var starName = CruiseAssistor.GetStarName(star);
 					var range = (planet.uPosition - GameMain.mainPlayer.uPosition).magnitude;
 					nameLabelStyle.normal.textColor = Color.white;
 					nRangeLabelStyle.normal.textColor = Color.white;
 					float textHeight;
 
-					if (!highlighted && CruiseAssist.SelectTargetPlanet != null && planet.id == CruiseAssist.SelectTargetPlanet.id)
+					if (!highlighted && CruiseAssistor.SelectTargetPlanet != null && planet.id == CruiseAssistor.SelectTargetPlanet.id)
 					{
 						nameLabelStyle.normal.textColor = Color.cyan;
 						nRangeLabelStyle.normal.textColor = Color.cyan;
@@ -310,8 +310,8 @@ namespace tanu.CruiseAssist
 
 					GUILayout.BeginHorizontal();
 
-					var text = starName + " - " + CruiseAssist.GetPlanetName(planet);
-					if (CruiseAssist.MarkVisitedFlag)
+					var text = starName + " - " + CruiseAssistor.GetPlanetName(planet);
+					if (CruiseAssistor.MarkVisitedFlag)
 					{
 						text = (planet.factory != null ? VisitedMark : NonVisitMark) + text;
 					}
@@ -320,15 +320,15 @@ namespace tanu.CruiseAssist
 
 					GUILayout.FlexibleSpace();
 
-					GUILayout.Label(CruiseAssistMainUI.RangeToString(range), textHeight < 30 ? nRangeLabelStyle : hRangeLabelStyle);
+					GUILayout.Label(CruiseAssistorMainUI.RangeToString(range), textHeight < 30 ? nRangeLabelStyle : hRangeLabelStyle);
 
 					if (ListSelected == 2 && actionSelected[ListSelected] == 1)
 					{
 						// BookmarkのSort
 
-						var index = CruiseAssist.Bookmark.IndexOf(id);
+						var index = CruiseAssistor.Bookmark.IndexOf(id);
 						bool first = index == 0;
-						bool last = index == CruiseAssist.Bookmark.Count - 1;
+						bool last = index == CruiseAssistor.Bookmark.Count - 1;
 
 						if (GUILayout.Button(last ? "-" : "↓", textHeight < 30 ? nSortButtonStyle : hSortButtonStyle))
 						{
@@ -336,8 +336,8 @@ namespace tanu.CruiseAssist
 
 							if (!last)
 							{
-								CruiseAssist.Bookmark.RemoveAt(index);
-								CruiseAssist.Bookmark.Insert(index + 1, id);
+								CruiseAssistor.Bookmark.RemoveAt(index);
+								CruiseAssistor.Bookmark.Insert(index + 1, id);
 							}
 						}
 						if (GUILayout.Button(first ? "-" : "↑", textHeight < 30 ? nSortButtonStyle : hSortButtonStyle))
@@ -346,8 +346,8 @@ namespace tanu.CruiseAssist
 
 							if (!first)
 							{
-								CruiseAssist.Bookmark.RemoveAt(index);
-								CruiseAssist.Bookmark.Insert(index - 1, id);
+								CruiseAssistor.Bookmark.RemoveAt(index);
+								CruiseAssistor.Bookmark.Insert(index - 1, id);
 							}
 						}
 					}
@@ -356,7 +356,7 @@ namespace tanu.CruiseAssist
 						var actionName =
 							actionSelected[ListSelected] == 0 ? "SET" :
 							actionSelected[ListSelected] == 2 ? (ListSelected == 1 && listIndex == 0 ? "-" : "DEL") :
-							CruiseAssist.Bookmark.Contains(id) ? "DEL" : "ADD";
+							CruiseAssistor.Bookmark.Contains(id) ? "DEL" : "ADD";
 
 						if (GUILayout.Button(actionName, textHeight < 30 ? nActionButtonStyle : hActionButtonStyle))
 						{
@@ -375,16 +375,16 @@ namespace tanu.CruiseAssist
 								{
 									// History(1番目はADD)のとき
 
-									if (CruiseAssist.Bookmark.Contains(id))
+									if (CruiseAssistor.Bookmark.Contains(id))
 									{
-										CruiseAssist.Bookmark.Remove(id);
+										CruiseAssistor.Bookmark.Remove(id);
 									}
 									else
 									{
-										if (CruiseAssist.Bookmark.Count <= 128)
+										if (CruiseAssistor.Bookmark.Count <= 128)
 										{
-											CruiseAssist.Bookmark.Add(id);
-											CruiseAssistMainUI.NextCheckGameTick = GameMain.gameTick + 300;
+											CruiseAssistor.Bookmark.Add(id);
+											CruiseAssistorMainUI.NextCheckGameTick = GameMain.gameTick + 300;
 										}
 									}
 								}
@@ -399,16 +399,16 @@ namespace tanu.CruiseAssist
 
 									if (listIndex != 0)
 									{
-										CruiseAssist.History.RemoveAt(CruiseAssist.History.Count - 1 - listIndex);
-										CruiseAssistMainUI.NextCheckGameTick = GameMain.gameTick + 300;
+										CruiseAssistor.History.RemoveAt(CruiseAssistor.History.Count - 1 - listIndex);
+										CruiseAssistorMainUI.NextCheckGameTick = GameMain.gameTick + 300;
 									}
 								}
 								else if (ListSelected == 2)
 								{
 									// Bookmark(2番目はDEL)のとき
 
-									CruiseAssist.Bookmark.Remove(planet.id);
-									CruiseAssistMainUI.NextCheckGameTick = GameMain.gameTick + 300;
+									CruiseAssistor.Bookmark.Remove(planet.id);
+									CruiseAssistorMainUI.NextCheckGameTick = GameMain.gameTick + 300;
 								}
 							}
 						}
@@ -463,12 +463,12 @@ namespace tanu.CruiseAssist
 
 		public static void SelectStar(StarData star, PlanetData planet)
 		{
-			CruiseAssist.SelectTargetStar = star;
-			CruiseAssist.SelectTargetPlanet = planet;
+			CruiseAssistor.SelectTargetStar = star;
+			CruiseAssistor.SelectTargetPlanet = planet;
 
 			var uiGame = UIRoot.instance.uiGame;
 
-			if (CruiseAssist.SelectFocusFlag && uiGame.starmap.active)
+			if (CruiseAssistor.SelectFocusFlag && uiGame.starmap.active)
 			{
 				if (star != null)
 				{
@@ -503,7 +503,7 @@ namespace tanu.CruiseAssist
 				GameMain.mainPlayer.navigation.indicatorAstroId = 0;
 			}
 
-			CruiseAssist.SelectTargetAstroId = GameMain.mainPlayer.navigation.indicatorAstroId;
+			CruiseAssistor.SelectTargetAstroId = GameMain.mainPlayer.navigation.indicatorAstroId;
 		}
 
 		private static void UIStarmap_OnStarClick(UIStarmap starmap, UIStarmapStar star)

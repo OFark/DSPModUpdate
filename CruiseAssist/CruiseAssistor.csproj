@@ -7,8 +7,8 @@
     <ProjectGuid>{9CDB5E0F-FB97-46FF-A4FB-A9A400443FD3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>tanu.CruiseAssist</RootNamespace>
-    <AssemblyName>CruiseAssist</AssemblyName>
+    <RootNamespace>OFark.CruiseAssistor</RootNamespace>
+    <AssemblyName>CruiseAssistor</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\Program Files %28x86%29\Steam\steamapps\common\Dyson Sphere Program\BepInEx\plugins\abukaff-CruiseAssist\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\..\Program Files %28x86%29\Steam\steamapps\common\Dyson Sphere Program\BepInEx\plugins\OFark-CruiseAssistor\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -35,17 +35,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\AppData\Roaming\r2modmanPlus-local\DysonSphereProgram\profiles\Forcas\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>..\BepInExBinaries\0Harmony.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>F:\SteamLibrary\steamapps\common\Dyson Sphere Program\DSPGAME_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\DSPBinaries\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>..\..\..\AppData\Roaming\r2modmanPlus-local\DysonSphereProgram\profiles\Forcas\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>..\BepInExBinaries\BepInEx.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SteamLibrary\steamapps\common\Dyson Sphere Program\DSPGAME_Data\Managed\netstandard.dll</HintPath>
+      <HintPath>..\DSPBinaries\netstandard.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,38 +57,43 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>F:\SteamLibrary\steamapps\common\Dyson Sphere Program\DSPGAME_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\DSPBinaries\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>F:\SteamLibrary\steamapps\common\Dyson Sphere Program\DSPGAME_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\DSPBinaries\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SteamLibrary\steamapps\common\Dyson Sphere Program\DSPGAME_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\DSPBinaries\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SteamLibrary\steamapps\common\Dyson Sphere Program\DSPGAME_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\DSPBinaries\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SteamLibrary\steamapps\common\Dyson Sphere Program\DSPGAME_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\DSPBinaries\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="commons\ListUtils.cs" />
     <Compile Include="commons\MyLogger.cs" />
-    <Compile Include="CruiseAssistConfigManager.cs" />
-    <Compile Include="CruiseAssist.cs" />
+    <Compile Include="CruiseAssistorConfigManager.cs" />
+    <Compile Include="CruiseAssistor.cs" />
     <Compile Include="commons\ConfigManager.cs" />
     <Compile Include="Patch\Patch_UIStarmap.cs" />
     <Compile Include="Patch\Patch_UITechTree.cs" />
-    <Compile Include="UI\CruiseAssistConfigUI.cs" />
-    <Compile Include="UI\CruiseAssistDebugUI.cs" />
+    <Compile Include="UI\CruiseAssistorConfigUI.cs" />
+    <Compile Include="UI\CruiseAssistorDebugUI.cs" />
     <Compile Include="enum\CruiseAssistMainUIViewMode.cs" />
-    <Compile Include="UI\CruiseAssistStarListUI.cs" />
+    <Compile Include="UI\CruiseAssistorStarListUI.cs" />
     <Compile Include="enum\CruiseAssistState.cs" />
-    <Compile Include="UI\CruiseAssistMainUI.cs" />
+    <Compile Include="UI\CruiseAssistorMainUI.cs" />
     <Compile Include="commons\EnumUtils.cs" />
     <Compile Include="commons\LogManager.cs" />
     <Compile Include="Patch\Patch_PlayerMoveSail.cs" />
@@ -116,18 +124,15 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-
   <PropertyGroup>
     <DestinationFolder>C:\Users\Maher\AppData\Roaming\r2modmanPlus-local\DysonSphereProgram\profiles\Forcas\BepInEx\plugins\tanu-CruiseAssist</DestinationFolder>
   </PropertyGroup>
-  
   <PropertyGroup>
     <PostBuildEvent>
-<!--      set BEPINEX_PATH=C:\Users\Maher\AppData\Roaming\r2modmanPlus-local\DysonSphereProgram\profiles\Forcas\BepInEx-->
-<!--      del "%BEPINEX_PATH%\plugins\$(TargetFileName)"-->
-<!--      del "%BEPINEX_PATH%\scripts\$(TargetFileName)"-->
-      xcopy /y "$(TargetPath)" "$(DestinationFolder)"
     </PostBuildEvent>
   </PropertyGroup>
 </Project>

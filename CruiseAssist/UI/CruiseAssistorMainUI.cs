@@ -2,7 +2,7 @@
 
 namespace tanu.CruiseAssist
 {
-    public class CruiseAssistMainUI
+    public class CruiseAssistorMainUI
     {
         public static float Scale = 150.0f;
 
@@ -41,11 +41,11 @@ namespace tanu.CruiseAssist
             var windowStyle = new GUIStyle(GUI.skin.window);
             windowStyle.fontSize = 11;
 
-            Rect[wIdx] = GUILayout.Window(99030291, Rect[wIdx], WindowFunction, "CruiseAssist", windowStyle);
+            Rect[wIdx] = GUILayout.Window(99030291, Rect[wIdx], WindowFunction, "Cruise Assistor", windowStyle);
 
             //LogManager.LogInfo($"Rect[wIdx].width={Rect[wIdx].width}, Rect[wIdx].height={Rect[wIdx].height}");
 
-            var scale = CruiseAssistMainUI.Scale / 100.0f;
+            var scale = CruiseAssistorMainUI.Scale / 100.0f;
 
             if (Screen.width / scale < Rect[wIdx].xMax)
             {
@@ -92,11 +92,11 @@ namespace tanu.CruiseAssist
                 GUILayout.BeginHorizontal();
 
                 Color systemTextColor =
-                    CruiseAssist.State == CruiseAssistState.TO_STAR ? Color.cyan : Color.white;
+                    CruiseAssistor.State == CruiseAssistState.TO_STAR ? Color.cyan : Color.white;
                 Color planetTextColor =
-                    CruiseAssist.State == CruiseAssistState.TO_PLANET ? Color.cyan : Color.white;
+                    CruiseAssistor.State == CruiseAssistState.TO_PLANET ? Color.cyan : Color.white;
                 Color enemyTextColor =
-                    CruiseAssist.State == CruiseAssistState.TO_ENEMY ? Color.red : Color.white;
+                    CruiseAssistor.State == CruiseAssistState.TO_ENEMY ? Color.red : Color.white;
 
                 GUILayout.BeginVertical();
                 {
@@ -113,7 +113,7 @@ namespace tanu.CruiseAssist
 
                     targetPlanetTitleLabelStyle.normal.textColor = planetTextColor;
 
-                    GUILayout.Label(CruiseAssist.State == CruiseAssistState.TO_ENEMY ?
+                    GUILayout.Label(CruiseAssistor.State == CruiseAssistState.TO_ENEMY ?
                                         "Target:" :
                                         "Target\n Planet:"
                                   , targetPlanetTitleLabelStyle);
@@ -130,24 +130,24 @@ namespace tanu.CruiseAssist
                     var targetPlanetNameLabelStyle = new GUIStyle(targetSystemNameLabelStyle);
                     var targetEnemyNameLabelStyle = new GUIStyle(targetSystemNameLabelStyle);
 
-                    if (CruiseAssist.TargetStar != null)
+                    if (CruiseAssistor.TargetStar != null)
                     {
                         targetSystemNameLabelStyle.normal.textColor = systemTextColor;
 
-                        GUILayout.Label(CruiseAssist.GetStarName(CruiseAssist.TargetStar), targetSystemNameLabelStyle);
+                        GUILayout.Label(CruiseAssistor.GetStarName(CruiseAssistor.TargetStar), targetSystemNameLabelStyle);
                     }
                     else
                     {
                         GUILayout.Label(" ", targetSystemNameLabelStyle);
                     }
 
-                    if (CruiseAssist.TargetPlanet != null)
+                    if (CruiseAssistor.TargetPlanet != null)
                     {
                         targetPlanetNameLabelStyle.normal.textColor = planetTextColor;
 
-                        GUILayout.Label(CruiseAssist.GetPlanetName(CruiseAssist.TargetPlanet), targetPlanetNameLabelStyle);
+                        GUILayout.Label(CruiseAssistor.GetPlanetName(CruiseAssistor.TargetPlanet), targetPlanetNameLabelStyle);
                     }
-                    else if (CruiseAssist.TargetEnemy != null)
+                    else if (CruiseAssistor.TargetEnemy != null)
                     {
                         targetEnemyNameLabelStyle.normal.textColor = enemyTextColor;
                         targetEnemyNameLabelStyle.alignment = TextAnchor.UpperLeft;
@@ -185,22 +185,22 @@ namespace tanu.CruiseAssist
                     targetSystemRangeTimeLabelStyle.alignment = TextAnchor.MiddleRight;
                     var targetPlanetRangeTimeLabelStyle = new GUIStyle(targetSystemRangeTimeLabelStyle);
 
-                    if (CruiseAssist.TargetStar != null)
+                    if (CruiseAssistor.TargetStar != null)
                     {
                         targetSystemRangeTimeLabelStyle.normal.textColor = systemTextColor;
 
-                        var range = (CruiseAssist.TargetStar.uPosition - GameMain.mainPlayer.uPosition).magnitude - (double)(CruiseAssist.TargetStar.viewRadius - 120f);
+                        var range = (CruiseAssistor.TargetStar.uPosition - GameMain.mainPlayer.uPosition).magnitude - (double)(CruiseAssistor.TargetStar.viewRadius - 120f);
                         GUILayout.Label(RangeToString(range) + "\n" + TimeToString(range / velocity), targetSystemRangeTimeLabelStyle);
                     }
                     else
                     {
                         GUILayout.Label(" \n ", targetSystemRangeTimeLabelStyle);
                     }
-                    if (CruiseAssist.TargetPlanet != null)
+                    if (CruiseAssistor.TargetPlanet != null)
                     {
                         targetPlanetRangeTimeLabelStyle.normal.textColor = planetTextColor;
 
-                        var range = (CruiseAssist.TargetPlanet.uPosition - GameMain.mainPlayer.uPosition).magnitude - (double)CruiseAssist.TargetPlanet.realRadius;
+                        var range = (CruiseAssistor.TargetPlanet.uPosition - GameMain.mainPlayer.uPosition).magnitude - (double)CruiseAssistor.TargetPlanet.realRadius;
                         GUILayout.Label(RangeToString(range) + "\n" + TimeToString(range / velocity), targetPlanetRangeTimeLabelStyle);
                     }
                     else
@@ -221,7 +221,7 @@ namespace tanu.CruiseAssist
                 cruiseAssistAciviteLabelStyle.fontSize = 14;
                 cruiseAssistAciviteLabelStyle.alignment = TextAnchor.MiddleLeft;
 
-                if (CruiseAssist.State == CruiseAssistState.INACTIVE)
+                if (CruiseAssistor.State == CruiseAssistState.INACTIVE)
                 {
                     GUILayout.Label("Cruise Assist Inactive.", cruiseAssistAciviteLabelStyle);
                 }
@@ -245,17 +245,17 @@ namespace tanu.CruiseAssist
                 {
                     VFAudio.Create("ui-click-0", null, Vector3.zero, true, 0);
 
-                    CruiseAssistConfigUI.Show[wIdx] ^= true;
-                    if (CruiseAssistConfigUI.Show[wIdx])
+                    CruiseAssistorConfigUI.Show[wIdx] ^= true;
+                    if (CruiseAssistorConfigUI.Show[wIdx])
                     {
-                        CruiseAssistConfigUI.TempScale = CruiseAssistMainUI.Scale;
+                        CruiseAssistorConfigUI.TempScale = CruiseAssistorMainUI.Scale;
                     }
                 }
 
-                if (GUILayout.Button(CruiseAssist.Enable ? "Enable" : "Disable", buttonStyle))
+                if (GUILayout.Button(CruiseAssistor.Enabled ? "Disable" : "Enable", buttonStyle))
                 {
                     VFAudio.Create("ui-click-0", null, Vector3.zero, true, 0);
-                    CruiseAssist.Enable ^= true;
+                    CruiseAssistor.Enabled ^= true;
                     NextCheckGameTick = GameMain.gameTick + 300;
                 }
 
@@ -266,13 +266,13 @@ namespace tanu.CruiseAssist
                 if (GUILayout.Button("StarList", buttonStyle))
                 {
                     VFAudio.Create("ui-click-0", null, Vector3.zero, true, 0);
-                    CruiseAssistStarListUI.Show[wIdx] ^= true;
+                    CruiseAssistorStarListUI.Show[wIdx] ^= true;
                 }
 
                 if (GUILayout.Button("Cancel", buttonStyle))
                 {
                     VFAudio.Create("ui-click-0", null, Vector3.zero, true, 0);
-                    CruiseAssistStarListUI.SelectStar(null, null);
+                    CruiseAssistorStarListUI.SelectStar(null, null);
                 }
 
                 GUILayout.EndVertical();
